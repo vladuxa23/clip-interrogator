@@ -10,7 +10,7 @@ class Predictor(BasePredictor):
         self.ci = Interrogator(Config(
             blip_model_url='cache/model_large_caption.pth',
             clip_model_name="ViT-L-14/openai",
-            clip_model_path='cache',
+            clip_model_path='../cache',
             device='cuda:0', 
         ))
 

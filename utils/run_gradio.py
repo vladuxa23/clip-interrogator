@@ -17,7 +17,7 @@ args = parser.parse_args()
 if not torch.cuda.is_available():
     print("CUDA is not available, using CPU. Warning: this will be very slow!")
 
-config = Config(cache_path="cache")
+config = Config(cache_path="../cache")
 if args.lowvram:
     config.apply_low_vram_defaults()
 ci = Interrogator(config)

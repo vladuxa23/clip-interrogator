@@ -2,9 +2,12 @@
 .cog/
 .vscode/
 bench/
+.idea/
 cache/
 ci_env/
 clip-interrogator/
 clip_interrogator.egg-info/
 dist/
 venv/
+logs/
+requirements/
