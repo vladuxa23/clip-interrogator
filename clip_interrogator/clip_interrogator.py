@@ -77,11 +77,17 @@ class Interrogator():
 
             model_path = CAPTION_MODELS[self.config.caption_model_name]
             if self.config.caption_model_name.startswith('git-'):
-                caption_model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.float32)
+                caption_model = AutoModelForCausalLM.from_pretrained(
+                    model_path, torch_dtype=torch.float32, cache_dir=self.config.cache_path
+                )
             elif self.config.caption_model_name.startswith('blip2-'):
-                caption_model = Blip2ForConditionalGeneration.from_pretrained(model_path, torch_dtype=self.dtype)
+                caption_model = Blip2ForConditionalGeneration.from_pretrained(
+                    model_path, torch_dtype=self.dtype, cache_dir=self.config.cache_path
+                )
             else:
-                caption_model = BlipForConditionalGeneration.from_pretrained(model_path, torch_dtype=self.dtype)
+                caption_model = BlipForConditionalGeneration.from_pretrained(
+                    model_path, torch_dtype=self.dtype, cache_dir=self.config.cache_path
+                )
             self.caption_processor = AutoProcessor.from_pretrained(model_path)
 
             caption_model.eval()
@@ -108,7 +114,8 @@ class Interrogator():
                 precision='fp16' if config.device == 'cuda' else 'fp32',
                 device=config.device,
                 jit=False,
-                cache_dir=config.clip_model_path
+                # cache_dir=config.clip_model_path,
+                cache_dir=config.cache_path
             )
             self.clip_model.eval()
         else:

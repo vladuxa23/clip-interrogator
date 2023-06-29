@@ -1,8 +1,11 @@
 from clip_interrogator import Config, Interrogator
 
-config = Config(clip_model_name="ViT-L-14/openai", download_cache=True, cache_path='.\\cache')
+config = Config(clip_model_name="ViT-L-14/openai", download_cache=True)
+
 config.apply_low_vram_defaults()
-config.caption_model_name='blip-large'
+config.caption_model_name = 'blip-large'
+# config.cache_path = 'D:\\dev\\python\\project\\clip-interrogator\\cache\\clip'
+
 
 interrogator = Interrogator(config)
 

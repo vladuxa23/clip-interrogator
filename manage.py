@@ -1,3 +1,5 @@
+import utils.cache_env
+
 import io
 import logging
 import os.path
@@ -11,24 +13,8 @@ from fastapi import FastAPI, File
 from fastapi.openapi.docs import get_swagger_ui_html, get_swagger_ui_oauth2_redirect_html
 from fastapi.staticfiles import StaticFiles
 
-import model
-
-if not os.path.exists('logs'):
-    os.mkdir('logs')
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-ch = logging.StreamHandler()
-fh = logging.FileHandler(filename=os.path.join('logs', 'server.log'))
-formatter = logging.Formatter(
-    "%(asctime)s - %(module)s - %(funcName)s - line:%(lineno)d - %(levelname)s - %(message)s"
-)
-
-ch.setFormatter(formatter)
-fh.setFormatter(formatter)
-logger.addHandler(ch)  # Exporting logs to the screen
-logger.addHandler(fh)  # Exporting logs to a file
-logger = logging.getLogger(__name__)
+from utils import model
+from utils.logger import logger
 
 app = FastAPI(docs_url=None, redoc_url=None)
 
@@ -77,11 +63,14 @@ async def swagger_ui_redirect():
 
 
 @app.post('/interrogate')
-def interrogation_image(file: bytes = File()) -> dict:
+async def interrogation_image(file: bytes = File()) -> dict:
     try:
         image = Image.open(io.BytesIO(file))
-        return {"result": model.interrogator.interrogate(image)}
-    except Exception as err:
+        result = model.interrogator.interrogate(image)
+        return {"result": result}
+    except Exception:
+        logging.exception('Got exception on interrogate handler')
+
         return {"result": "error interrogate"}
 
 
