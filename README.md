@@ -1,6 +1,7 @@
 # links on main repo: 
 
 https://huggingface.co/spaces/pharma/CLIP-Interrogator
+
 https://github.com/pharmapsychotic/clip-interrogator
 
 
