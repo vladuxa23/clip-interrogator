@@ -1,5 +1,3 @@
-import utils.cache_env
-
 import io
 import logging
 import os.path
